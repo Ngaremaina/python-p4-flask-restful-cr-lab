@@ -23,16 +23,17 @@ class Plants(Resource):
         return response
     
     def post(self):
+        data = request.get_json()
         new_plant = Plant(
-            name = request.form["name"],
-            image = request.form["image"],
-            price = request.form["price"]
+            name = data["name"],
+            image = data["image"],
+            price = data["price"]
             
         )
         db.session.add(new_plant)
         db.session.commit()
         response_dict = new_plant.to_dict()
-        response = make_response(jsonify(response_dict),200)
+        response = make_response(response_dict,201)
         return response
     
 api.add_resource(Plants,'/plants')
